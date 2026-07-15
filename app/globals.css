@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+/*
+ * Placeholder brand tokens — swap these values for your customer's brand.
+ *
+ * The palette shape is deliberate: a deep primary (navy), one accent (teal),
+ * a warm off-white surface family (beige), and a neutral ink ramp. Keep the
+ * token NAMES as-is and change only the VALUES — every component in this kit
+ * references `navy-900`, `teal-500`, `beige-50`, `ink-500`, etc., so a value
+ * swap rebrands the whole app without touching a component.
+ *
+ * Taste rules baked in: off-white surface (never #fff), near-black ink
+ * (never #000), muted success/danger (never stock web green/red).
+ */
+
+:root {
+  /* Brand */
+  --brand-navy-900: #0e1a33;
+  --brand-navy-800: #16284f;
+  --brand-navy-700: #1f3974;
+  --brand-teal-500: #2ec5b1;
+  --brand-teal-600: #149a89;
+  --brand-beige-50: #fbfaf6; /* off-white surface — not #fff */
+  --brand-beige-100: #f4efe6;
+  --brand-beige-200: #e6dfce;
+  --brand-ink-900: #0b0e15; /* near-black, slight blue cool — not pure black */
+  --brand-ink-700: #2a3140;
+  --brand-ink-500: #5b6473;
+  --brand-ink-300: #b8bdc7;
+  --brand-success: #0f8b5c; /* muted, regulatory-feel green */
+  --brand-danger: #b6443b; /* muted, regulatory-feel red */
+
+  /* Surface defaults — light mode only for demos */
+  --background: var(--brand-beige-50);
+  --foreground: var(--brand-ink-900);
+}
+
+@theme inline {
+  /* Tailwind tokens — exposes brand colors as `bg-navy-900`, `text-teal-500`, etc. */
+  --color-navy-900: var(--brand-navy-900);
+  --color-navy-800: var(--brand-navy-800);
+  --color-navy-700: var(--brand-navy-700);
+  --color-teal-500: var(--brand-teal-500);
+  --color-teal-600: var(--brand-teal-600);
+  --color-beige-50: var(--brand-beige-50);
+  --color-beige-100: var(--brand-beige-100);
+  --color-beige-200: var(--brand-beige-200);
+  --color-ink-900: var(--brand-ink-900);
+  --color-ink-700: var(--brand-ink-700);
+  --color-ink-500: var(--brand-ink-500);
+  --color-ink-300: var(--brand-ink-300);
+  --color-success: var(--brand-success);
+  --color-danger: var(--brand-danger);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-inter), system-ui, -apple-system, "SF Pro Text", "Segoe UI", sans-serif;
+  --font-display: var(--font-inter), system-ui, -apple-system, "SF Pro Display", sans-serif;
+  --font-mono: var(--font-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), system-ui, -apple-system, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Numeric voice — apply to every dollar figure, rate, percentage, ID.
+ * tabular-nums = same width per glyph (commas align across rows).
+ * slashed-zero = can't be confused with a capital O.
+ */
+.tabular {
+  font-variant-numeric: tabular-nums slashed-zero;
+}
+
+/*
+ * Processing-screen shimmer bar. Sweep a gradient L→R for an active step.
+ * Pair with `background-size: 200% 100%` on the element.
+ */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
