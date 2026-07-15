@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel superseded runs on the same ref.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build (gate)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      # The hard gate: AGENTS.md requires `npm run build` to pass before any
+      # change is considered done. Turbopack build also runs the TypeScript check.
+      - name: Build
+        run: npm run build
+
+  checks:
+    name: Lint & audit (report-only)
+    runs-on: ubuntu-latest
+    # Non-blocking on purpose: the shipped kit primitives (ConfirmSheet, CountUp)
+    # trip two react-hooks lint errors, and npm audit surfaces transitive
+    # dev-time advisories. Surface both without failing the PR; tighten to
+    # blocking once the baseline is clean.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npx eslint .
+
+      - name: Dependency audit (high+)
+        run: npm audit --audit-level=high

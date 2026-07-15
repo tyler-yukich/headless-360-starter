@@ -1,0 +1,30 @@
+# Dependabot configuration.
+#
+# Repo-level Dependabot security *alerts* and *security updates* are enabled in
+# the repository settings; this file adds scheduled version-update PRs on top of
+# that so the kit's pinned toolchain (a fast-moving Next.js major) doesn't drift.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      # Batch routine dev/type/lint bumps into one PR to cut noise.
+      dev-dependencies:
+        dependency-type: "development"
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "chore(deps)"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "chore(actions)"
